@@ -1,0 +1,40 @@
+﻿@using Project.Models
+@model IEnumerable<Project.Models.Car>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Post</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            @foreach (Car item in Model)
+            {
+                <a href="/Advert/Details/@item.ID">
+                    <div class="col-md-4" style="padding-bottom: 20px">
+                        <img src="@item.Photo" class="img-responsive img-thumbnail" />
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="col-md-3">@item.Brand.Name </div>
+                                <div class="col-md-3">@item.Model.Name</div>
+                                <div class="col-md-4">@item.Date.ToLongDateString()</div>
+                                <span class="label label-info col-md-4">@item.Price</span>
+                                    <ul class="breadcrumb col-md-3">
+                                        <li class="active"><a href="/Advert/Edit/@item.ID">Редактировать</a></li>
+                                        <li><a href="/Advert/Delete/@item.ID">Удалить</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</body>
+</html>

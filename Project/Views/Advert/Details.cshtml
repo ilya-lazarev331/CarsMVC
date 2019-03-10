@@ -1,0 +1,85 @@
+﻿@model Project.Models.Car
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Бренд</th>
+                            <th>@Model.Brand.Name</th>
+                        </tr>
+                        <tr>
+                            <th>Модель</th>
+                            <th>@Model.Model.Name</th>
+                        </tr>
+                        <tr>
+                            <th>Кузов</th>
+                            <th>@Model.Body.Name</th>
+                        </tr>
+                        <tr>
+                            <th>Мощность</th>
+                            <th>@Model.Power</th>
+                        </tr>
+                        <tr>
+                            <th>Цвет</th>
+                            <th>@Model.Color</th>
+                        </tr>
+                        <tr>
+                            <th>Год</th>
+                            <th>@Model.Year</th>
+                        </tr>
+                        <tr>
+                            <th>Пробег</th>
+                            <th>@Model.Mileage</th>
+                        </tr>
+                        <tr>
+                            <th>Коробка</th>
+                            <th>@Model.Transmission.Name</th>
+                        </tr>
+                        <tr>
+                            <th>Город</th>
+                            <th>@Model.City.Name</th>
+                        </tr>
+                        <tr>
+                            <th>Дата публикации</th>
+                            <th>@Model.Date.ToLongDateString()</th>
+                        </tr>
+                        <tr>
+                            <th><span class="label label-success" style="font-size: 15px">Телефон: @Model.Phone</span></th>
+                            <th><span class="label label-info" style="font-size: 15px">@Model.Price р.</span></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <img src="@Model.Photo" class="img-responsive img-thumbnail" />
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <h2>Комментарий продавца</h2>
+                    <div class="panel panel-primary">
+                        <div class="panel-body">@Model.Description</div>
+                    </div>
+                </div>
+                @if (User.Identity.Name == "admin" || User.Identity.Name == Model.User.Login)
+            {
+                    <ul class="breadcrumb col-md-2 text-center" style="padding-top: 20px">
+                        <li class="active"><a href="/Advert/Edit/@Model.ID">Редактировать</a></li>
+                        <li><a href="/Advert/Delete/@Model.ID">Удалить</a></li>
+                    </ul>
+                }
+                <form action="/Advert/Details" method="post">
+                    @Html.HiddenFor(x=>Model.Phone)                    
+                    @Html.HiddenFor(x=>Model.ID)
+                    <div class="col-md-3 text-center" style="padding-top: 20px">
+                        <input type="submit" value="Отправить письмо" class="btn btn-warning" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

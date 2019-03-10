@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Project.Models.Car>
+
+<div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <a href="/Advert/Details/@item.ID">
+                    <div class="col-md-4" style="padding-bottom: 20px">
+                        <img src="@item.Photo" class="img-responsive img-thumbnail" />
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="col-md-3">@item.Brand.Name </div>
+                                <div class="col-md-3">@item.Model.Name</div>
+                                <div class="col-md-4">@item.Date.ToLongDateString()</div>
+                                <span class="label label-info col-md-4">@item.Price</span>
+                                @if (User.Identity.Name == "admin")
+                                {
+                                    <ul class="breadcrumb col-md-3">
+                                        <li class="active"><a href="/Advert/Edit/@item.ID">Редактировать</a></li>
+                                        <li><a href="/Advert/Delete/@item.ID">Удалить</a></li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+                </div>
+</div>

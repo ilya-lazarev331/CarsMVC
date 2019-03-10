@@ -1,0 +1,140 @@
+﻿@model Project.Models.Car
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .container {
+        border: 1px solid #A9A9A9;
+        border-radius: 10px 10px;        
+    }
+</style>
+
+<div class="container-fluid">
+    @using (Ajax.BeginForm("FilterList", new AjaxOptions
+    {
+        UpdateTargetId = "results",
+        LoadingElementId = "loading",
+        LoadingElementDuration = 800
+    }))
+    {
+        <form method="get">
+            <div class="form-inline">
+                <div class="form-group">
+                    Бренд<br>
+                    <div class="col-md-10">
+                        <select id="BrandID" name="BrandID">
+                            <option id="br" value="1010">Все</option>
+                            @foreach (var item in ViewBag.Brands)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="rep" class="form-group">
+                    Модель<br>
+                    <div class="col-md-10">
+                        <select id="ModelID" name="ModelID">
+                            <option value="1010">Все</option>
+                            @if (ViewBag.Models != null)
+                            {
+                                foreach (var item in ViewBag.Models)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="del" class="form-group">
+                    Кузов<br>
+                    <div class="col-md-10">
+                        <select id="BodyID" name="BodyID">
+                            <option value="1010">Все</option>
+                            @foreach (var item in ViewBag.Bodies)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="del" class="form-group">
+                    Город<br>
+                    <div class="col-md-10">
+                        <select id="CityID" name="CityID">
+                            <option value="1010">Все</option>
+                            @foreach (var item in ViewBag.Cities)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="del" class="form-group">
+                    <div class="col-md-10">
+                        <input type="number" name="Price1" placeholder="Цена от">
+                        <input type="number" name="Price2" placeholder="до">
+                    </div>
+                </div>
+
+                <div id="del" class="form-group">
+                    Сортировка<br>
+                    <div class="col-md-10">
+                        <select id="Sort" name="Sort">
+                            <option value="1" selected>По дате</option>
+                            <option value="2">По цене(дороже - дешевле)</option>
+                            <option value="3">По цене(дешевле - дороже)</option>
+                            <option value="4">По году</option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="submit" value="Искать" class="btn btn-primary" />
+            </div>
+        </form>
+    }
+    <div id="loading" style="display:none; color: red; font-weight:bold"><p>Идёт загрузка....</p></div>
+    <div id="results"></div>
+    </div>
+    <script type="text/javascript">
+
+        $('#BrandID').change(function () {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItems2")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#del').remove();
+                    $('#rep').replaceWith(data);
+                }
+            });
+        });
+
+        $('#ModelID').change(function () {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetBody2")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#BodyID').replaceWith(data);
+                }
+            });
+        });
+
+        //function StatusSelect() {
+        //    var selected = $('#ModelID').find('option[selected]');
+        //    if (selected.attr('id') == 'br') { $("#ModelID").attr("disabled", "disabled"); };
+        //};
+
+    </script>

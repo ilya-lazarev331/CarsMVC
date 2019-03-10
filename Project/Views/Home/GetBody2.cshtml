@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Project.Models.Body>
+<select id="BodyID" name="BodyID">
+    <option value="1010">Все</option>
+    @foreach (var item in ViewBag.Bodies)
+            {
+        <option value="@item.ID">@item.Name</option>
+    }
+</select>

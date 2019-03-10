@@ -1,0 +1,41 @@
+﻿@model Project.Models.EmailModels
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Mail", "Home", FormMethod.Post, new { @class = "well" }))
+{
+    <div class="panel-success">
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    <label>От кого:</label>
+                    @Html.TextBoxFor(x => x.From, new { @class = "form-control", placeholder = "Email" })
+                </div>
+                <div class="form-group">
+                    <label>Пароль:</label>
+                    @Html.TextBoxFor(x => x.Password, new { @class = "form-control", placeholder = "Password", @type = "password" })
+                </div>
+                <div class="form-group">
+                    <label>Кому:</label>
+                    @Html.TextBoxFor(x => x.To, new { @class = "form-control", placeholder = "Email" })
+                </div>
+                <div class="form-group">
+                    <label>Тема:</label>
+                    @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", placeholder = "Subject" })
+                </div>
+                <div class="form-group">
+                    <label>Сообщение:</label>
+                    @Html.TextBoxFor(x => x.Body, new { @class = "form-control", placeholder = "Text" })
+                </div>
+
+                <div class="text-center">
+                    <input type="submit" value="Отправить" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
+}

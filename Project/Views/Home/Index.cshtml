@@ -1,0 +1,59 @@
+﻿@using Project.Models
+@model IEnumerable<Project.Models.Car>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="text-center">
+    <div class="row">        
+            <div class="col-md-1">@ViewBag.Result</div>
+            <div class="col-md-1"><span class="badge" style="background-color: darkcyan">Обьявлений на сайте: @ViewBag.Number</span></div>
+        </div>
+    <!--<table>
+        foreach (Car b in Model)
+        {
+            <tr>
+                <td><p>b.Seller</p></td>
+                <td><p>b.Brand</p></td>
+                <td><p>b.Model</p></td>
+                <td><p>b.Price</p></td>
+            </tr>
+        }
+    </table>
+    <h4>asd</h4>-->
+    <!--Html.DropDownList("Model", ViewBag.Cars as SelectList)-->
+    <div class="container">
+        <div class="row">
+            @foreach (Car item in Model)
+            {
+                <a href="/Advert/Details/@item.ID">
+                    <div class="col-md-4" style="padding-bottom: 20px">
+                        <img src="@item.Photo" class="img-responsive img-thumbnail" />
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="col-md-3">@item.Brand.Name </div>
+                                <div class="col-md-3">@item.Model.Name</div>
+                                <div class="col-md-4">@item.Date.ToLongDateString()</div>
+                                <span class="label label-info col-md-4">@item.Price</span>
+                                @if (User.Identity.Name == "admin")
+                                {
+                                    <ul class="breadcrumb col-md-3">
+                                        <li class="active"><a href="/Advert/Edit/@item.ID">Редактировать</a></li>
+                                        <li><a href="/Advert/Delete/@item.ID">Удалить</a></li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+                </div>
+</div>
+            @*@for (int i = Model.Count() - 1; i >= 0; i--)
+                {
+                    <div>
+                        @Model.ElementAt(i).Brand @Model.ElementAt(i).Model @Model.ElementAt(i).Price <a href="/Home/Advert/@Model.ElementAt(i).ID">Посмотреть</a>
+                    </div>
+                }*@
+        </div>
+

@@ -1,0 +1,172 @@
+﻿@model Project.Models.CarModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Advert", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">        
+        @Html.HiddenFor(model => model.ID)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="col-md-offset-1">
+            <div class="form-group">
+                Бренд<br>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.BrandID, ViewBag.Brands as SelectList)
+                </div>
+            </div>
+
+            <div id="rep" class="form-group">
+                Модель<br>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.ModelID, ViewBag.Models as SelectList)
+                </div>
+            </div>
+
+            <div id="del" class="form-group">
+                Кузов<br>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.BodyID, ViewBag.Bodies as SelectList)
+                </div>
+            </div>
+
+            <div class="form-group">
+                Коробка передач<br>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.TransmissionID, ViewBag.TR as SelectList)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mileage, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Mileage, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Mileage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Power, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Power, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Power, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                Город<br>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CityID, ViewBag.Cities as SelectList)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextArea("Description", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="editor-label">Файл изображения</div>
+            <div class="editor-field">
+                <input id="imgInput" type="file" name="uploadImage" accept="image/jpeg, image/png" />
+                <img id="image" class="img-thumbnail" width="150" height="150"
+                     src="#" />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Добавить обьявление" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+        $('#BrandID').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItems")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#del').remove();
+                    $('#rep').replaceWith(data);
+                }
+            });
+        });
+
+        $('#ModelID').change(function () {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetBody")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#BodyID').replaceWith(data);
+                }
+            });
+        });
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imgInput").change(function () {
+        readURL(this);
+    });
+</script>
+

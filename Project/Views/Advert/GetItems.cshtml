@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Project.Models.Model>
+
+<div id="rep" class="form-group">
+    Модель<br>
+    <div class="col-md-10">
+        <select id="ModelID" name="ModelID">
+            @foreach (var item in ViewBag.Models)
+            {
+                <option value="@item.ID">@item.Name</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div id="del" class="form-group">
+    Кузов<br>
+    <div class="col-md-10">
+        <select id="BodyID" name="BodyID">
+            @foreach (var item in ViewBag.Bodies)
+            {
+                <option value="@item.ID">@item.Name</option>
+            }
+        </select>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('#ModelID').change(function () {
+        // получаем выбранный id
+        var id = $(this).val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetBody")/' + id,
+            success: function (data) {
+
+                // заменяем содержимое присланным частичным представлением
+                $('#BodyID').replaceWith(data);
+            }
+        });
+    });
+
+</script>
